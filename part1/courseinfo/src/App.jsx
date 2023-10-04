@@ -9,13 +9,18 @@ const App = () => {
   const part3 = 'State of a component'
   const exercises3 = 14
 
+//combining courses and exercises so they are easier to pass as props to Part component
+  const courseParts = {
+	"part1" : [part1, exercises1],
+	"part2" : [part2, exercises2],
+	"part3" : [part3, exercises3]
+  }
+
 
   return (
     <div>
      	<Header course={course} />
-	  {/*God awful*/}
-	<Content part1={part1} part2={part2} part3={part3} exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
-	  {/*Should pass props as an array and sum them up in the component.*/}
+	<Content parts={courseParts} />
 	<Total first={exercises1} second={exercises2} third={exercises3}/>
     </div>
   )
@@ -30,17 +35,28 @@ const Header = ({course}) => {
 	);
 }
 
-const Content = (props) => {
+const Content = ({parts}) => {
 	return(
-		<>
-	<p> {props.part1} {props.exercises1} </p>
-	<p> {props.part2} {props.exercises2} </p>
-	<p> {props.part3} {props.exercises3} </p>
-
-		</>
+		<div>
+			<Part dict={parts} dictKey={"part1"}/>
+			<Part dict={parts} dictKey={"part2"}/>
+			<Part dict={parts} dictKey={"part3"}/>	
+		</div>
 	);
 }
+
+const Part = ({dict, dictKey}) => {
+	// a better implementation would cycle through indexes and concatenate etc.
+return (
+	//For some reason the syntax needs to be this instead of dict.dictKey[0], otherwise the key is not right at runtime.
+		<p>{dict[dictKey][0]} {dict[dictKey][1]}</p>
+	);
+}
+
+
 const Total = (props) => {
+	
+	{/*Should take props as an array and sum them up in the component.*/}
 	return(
 		<p> Number of exercises {props.first + props.second + props.third} </p>
 	);
