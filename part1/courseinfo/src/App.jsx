@@ -13,9 +13,9 @@ const App = () => {
   return (
     <div>
      	<Header course={course} />
-	  //God awful
+	  {/*God awful*/}
 	<Content part1={part1} part2={part2} part3={part3} exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
-	  //Should pass props as an array and sum them up in the component.
+	  {/*Should pass props as an array and sum them up in the component.*/}
 	<Total first={exercises1} second={exercises2} third={exercises3}/>
     </div>
   )
