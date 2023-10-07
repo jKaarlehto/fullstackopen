@@ -1,30 +1,31 @@
-//Exercises 1.1 and 1.2 in separate commits
+//Exercises in separate commits
 //
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
-
-//combining courses and exercises so they are easier to pass as props to Part component
-  const courseParts = {
-	"part1" : [part1, exercises1],
-	"part2" : [part2, exercises2],
-	"part3" : [part3, exercises3]
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
   }
-
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
 
   return (
     <div>
-     	<Header course={course} />
-	<Content parts={courseParts} />
-	<Total first={exercises1} second={exercises2} third={exercises3}/>
+	<Header course={course}/> 
+	<Content part={part1}/>
+	<Content part={part2}/>
+	<Content part={part3}/>
+	<Total part1={part1} part2={part2} part3={part3}/>
     </div>
   )
 }
+
 
 const Header = ({course}) => {
 
@@ -35,30 +36,23 @@ const Header = ({course}) => {
 	);
 }
 
-const Content = ({parts}) => {
+const Content = ({part}) => {
 	return(
-		<div>
-			<Part dict={parts} dictKey={"part1"}/>
-			<Part dict={parts} dictKey={"part2"}/>
-			<Part dict={parts} dictKey={"part3"}/>	
-		</div>
+		<>
+			<p>{part["name"]}</p>
+			<p>{part["exercises"]}</p>
+		</>
 	);
 }
-
-const Part = ({dict, dictKey}) => {
-	// a better implementation would cycle through indexes and concatenate etc.
-return (
-	//For some reason the syntax needs to be this instead of dict.dictKey[0], otherwise the key is not right at runtime.
-		<p>{dict[dictKey][0]} {dict[dictKey][1]}</p>
-	);
-}
-
 
 const Total = (props) => {
 	
 	{/*Should take props as an array and sum them up in the component.*/}
+
+	console.log(props)
 	return(
-		<p> Number of exercises {props.first + props.second + props.third} </p>
+		<p> Number of exercises {props.part1.exercises + props.part2.exercises + props.part3.exercises} </p>
 	);
 }
+
 export default App
