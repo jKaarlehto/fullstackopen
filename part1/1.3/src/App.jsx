@@ -39,8 +39,7 @@ const Header = ({course}) => {
 const Content = ({part}) => {
 	return(
 		<>
-			<p>{part["name"]}</p>
-			<p>{part["exercises"]}</p>
+			<p>{part["name"]} {part["exercises"]}</p>
 		</>
 	);
 }
