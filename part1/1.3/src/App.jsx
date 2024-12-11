@@ -1,58 +1,58 @@
 //Exercises in separate commits
 //
 const App = () => {
-    const course = 'Half Stack application development'
+        const course = {
+            name: 'Half Stack application development',
 
-
-
-    const parts = [
-        {
-        name: 'Fundamentals of React',
-        exercises: 10
-        },
-        {
-        name: 'Using props to pass data',
-        exercises: 7
-        },
-        {
-        name: 'State of a component',
-        exercises: 14
+            parts: [
+                {
+                name: 'Fundamentals of React',
+                exercises: 10
+                },
+                {
+                name: 'Using props to pass data',
+                exercises: 7
+                },
+                {
+                name: 'State of a component',
+                exercises: 14
+                }
+            ]
         }
-    ]
+
         return (
+
             <div>
             <Header course={course}/> 
-            <Content parts={parts}/>
-            <Total parts={parts}/>
+            <Content course={course}/>
+            <Total course={course}/>
             </div>
-        )
-    
+        );
 }
 
+    const Header = ({course}) => {
 
-const Header = ({course}) => {
-
-	return(
-		<>
-			<h1>{course}</h1>
-		</>
-	);
-}
-
-const Content = ({parts}) => {
-  const content = parts.map(part => <p>  {part.name} {part.exercises} </p>)
       return(
         <>
-          {content}
+          <h1>{course.name}</h1>
         </>
       );
-}
+    }
 
-const Total = ({parts}) => {
-	
-	return(
-		<p> Number of exercises {parts[0].exercises+parts[1].exercises+parts[2].exercises} </p>
-	);
-}
+    const Content = ({course}) => {
+      const content = course.parts.map(part => <p>  {part.name} {part.exercises} </p>)
+          return(
+            <>
+              {content}
+            </>
+          );
+    }
+
+    const Total = ({course}) => {
+        const parts = course.parts 
+      return(
+        <p> Number of exercises {parts[0].exercises+parts[1].exercises+parts[2].exercises} </p>
+      );
+    }
 
 export default App
