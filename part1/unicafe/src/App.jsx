@@ -56,13 +56,13 @@ const Statistics = ({ratings, displayKeys}) => {
     let stats = <p>Average: {averageRating}, Positive: {positiveFrac} </p>
 
     if (ratingCount == 0) {
-	stats = "No feedback given"
+	stats =  <p>"No feedback given"</p>
     }
     
     return(
 	<div>
 	<ListPairs items={ratings} keys={displayKeys}/>	
-	<p>{stats}</p>
+	{stats}
 	</div>
     )
 
