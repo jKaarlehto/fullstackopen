@@ -19,9 +19,7 @@ const App = () => {
 	<Button handler={() => setGood(good + 1)} name="good"/>
 	<Button handler={() => setNeutral(neutral + 1)} name="neutral"/>
 	<Button handler={() => setBad(bad + 1)} name="bad"/>
-	<Header text="Statistics"/>
-	<ListPairs pairs={ratings} keys={["name","count"]}/>	
-	<RatingStats ratings={ratings}/>
+	<Statistics ratings={ratings} displayKeys={["name","value"]}/>
       </div>
   )
 }
@@ -38,15 +36,15 @@ const Button = ({name, handler}) => {
     )
 }
 
-const ListPairs = ({pairs, keys}) => {
+const ListPairs = ({items, keys}) => {
     return (
 	<ul>
-	    {pairs.map(pair => (<li key={pair[keys[0]]}> {pair[keys[0]]} : {pair[keys[1]]} </li>))}
+	    {items.map(pair => (<li key={pair[keys[0]]}> {pair[keys[0]]} : {pair[keys[1]]} </li>))}
 	</ul>
     )
 }
 
-const RatingStats = ({ratings}) => {
+const Statistics = ({ratings, displayKeys}) => {
     let ratingCount = ratings.reduce((acc,current) => acc + current.count, 0)
     let positiveCount = ratings.reduce((acc,current) => acc + (current.value > 0 ? current.count : 0), 0 )
     let ratingScore = ratings.reduce((acc,current) => acc + current.count*current.value,0)
@@ -54,10 +52,12 @@ const RatingStats = ({ratings}) => {
     let averageRating = ratingCount > 0 ? (ratingScore/ratingCount).toPrecision(3): ""
     let positiveFrac = ratingCount >0 ? (positiveCount/ratingCount * 100).toPrecision(3) + "%" : ""
     
-    
-
     return(
+	<div>
+	<Header text="Statistics"/>
+	<ListPairs items={ratings} keys={displayKeys}/>	
 	<p>Average: {averageRating}, Positive: {positiveFrac} </p>
+	</div>
     )
 
 }
