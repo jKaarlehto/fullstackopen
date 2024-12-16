@@ -7,10 +7,10 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
     
-  const counts = [
-    {name: 'good', value: good},
-    {name: 'neutral', value: neutral},
-    {name: 'bad', value: bad}
+  const ratings = [
+    {name: 'good', count: good, value: 1},
+    {name: 'neutral', count: neutral, value: 0},
+    {name: 'bad', count: bad, value: -1}
   ]
 
   return (
@@ -20,7 +20,8 @@ const App = () => {
 	<Button handler={() => setNeutral(neutral + 1)} name="neutral"/>
 	<Button handler={() => setBad(bad + 1)} name="bad"/>
 	<Header text="Statistics"/>
-	<ListPairs pairs={counts}/>	
+	<ListPairs pairs={ratings} keys={["name","count"]}/>	
+	<RatingStats ratings={ratings}/>
       </div>
   )
 }
@@ -37,12 +38,26 @@ const Button = ({name, handler}) => {
     )
 }
 
-const ListPairs = ({pairs}) => {
-    console.log(pairs)
+const ListPairs = ({pairs, keys}) => {
     return (
 	<ul>
-	    {pairs.map(pair => (<li> {pair.name} : {pair.value} </li>))}
+	    {pairs.map(pair => (<li key={pair[keys[0]]}> {pair[keys[0]]} : {pair[keys[1]]} </li>))}
 	</ul>
+    )
+}
+
+const RatingStats = ({ratings}) => {
+    let ratingCount = ratings.reduce((acc,current) => acc + current.count, 0)
+    let positiveCount = ratings.reduce((acc,current) => acc + (current.value > 0 ? current.count : 0), 0 )
+    let ratingScore = ratings.reduce((acc,current) => acc + current.count*current.value,0)
+
+    let averageRating = ratingCount > 0 ? (ratingScore/ratingCount).toPrecision(3): ""
+    let positiveFrac = ratingCount >0 ? (positiveCount/ratingCount * 100).toPrecision(3) + "%" : ""
+    
+    
+
+    return(
+	<p>Average: {averageRating}, Positive: {positiveFrac} </p>
     )
 
 }
