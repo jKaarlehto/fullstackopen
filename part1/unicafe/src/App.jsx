@@ -26,7 +26,7 @@ const App = () => {
 
 const Header = ({text}) => {
     return (
-	<h1>{text}</h1>
+	<h2>{text}</h2>
     )
 }	
 
@@ -49,14 +49,20 @@ const Statistics = ({ratings, displayKeys}) => {
     let positiveCount = ratings.reduce((acc,current) => acc + (current.value > 0 ? current.count : 0), 0 )
     let ratingScore = ratings.reduce((acc,current) => acc + current.count*current.value,0)
 
+    //1.9 konditionaalinen renderointi tekee naista ehtolauseista turhia, mutta jatataan ne kuitnkin
     let averageRating = ratingCount > 0 ? (ratingScore/ratingCount).toPrecision(3): ""
     let positiveFrac = ratingCount >0 ? (positiveCount/ratingCount * 100).toPrecision(3) + "%" : ""
     
+    let stats = <p>Average: {averageRating}, Positive: {positiveFrac} </p>
+
+    if (ratingCount == 0) {
+	stats = "No feedback given"
+    }
+    
     return(
 	<div>
-	<Header text="Statistics"/>
 	<ListPairs items={ratings} keys={displayKeys}/>	
-	<p>Average: {averageRating}, Positive: {positiveFrac} </p>
+	<p>{stats}</p>
 	</div>
     )
 
