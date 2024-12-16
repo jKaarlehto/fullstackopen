@@ -36,11 +36,13 @@ const Button = ({name, handler}) => {
     )
 }
 
-const ListPairs = ({items, keys}) => {
+
+const StatisticLine = ({text, value}) => {
     return (
-	<ul>
-	    {items.map(pair => (<li key={pair[keys[0]]}> {pair[keys[0]]} : {pair[keys[1]]} </li>))}
-	</ul>
+	<tr>
+	    <td>{text}</td>
+	    <td>{value}</td>
+	</tr>
     )
 }
 
@@ -56,13 +58,21 @@ const Statistics = ({ratings, displayKeys}) => {
     let stats = <p>Average: {averageRating}, Positive: {positiveFrac} </p>
 
     if (ratingCount == 0) {
-	stats =  <p>"No feedback given"</p>
+	return (<p>No feedback given</p>)
     }
     
     return(
 	<div>
-	<ListPairs items={ratings} keys={displayKeys}/>	
-	{stats}
+	    <table>
+		<tbody>	
+		<StatisticLine text="good" value={ratings.find(item => item.name == "good").count}/>
+		<StatisticLine text="neutral" value={ratings.find(item => item.name == "neutral").count}/>
+   		<StatisticLine text="bad" value={ratings.find(item => item.name == "bad").count}/>
+		<StatisticLine text="all" value={ratingCount}/>
+		<StatisticLine text="average" value={averageRating}/>
+		<StatisticLine text="positive" value={positiveFrac}/>
+		</tbody>
+	    </table>
 	</div>
     )
 
