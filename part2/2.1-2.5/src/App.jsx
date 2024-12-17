@@ -63,6 +63,7 @@ const App = () => {
     const Total = ({course}) => {
         const parts = course.parts 
 	console.log(parts)
+	//2.3 oli jo tehty 2.1 vaiheessa
 	let total = parts.reduce((sum,current) => current.exercises + sum,0)
       return(
         <p> Number of exercises {total} </p>
