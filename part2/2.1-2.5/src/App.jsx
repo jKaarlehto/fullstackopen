@@ -23,12 +23,21 @@ const App = () => {
         return (
 
             <div>
-            <Header course={course}/> 
-            <Content course={course}/>
-            <Total course={course}/>
+	    <Course course={course} />
             </div>
         );
 }
+
+    const Course = ({course}) => {
+
+	return (
+	    <div>
+	    <Header course={course}/> 
+	    <Content course={course}/>
+	    <Total course={course}/>
+	    </div>
+	)
+    }
 
     const Header = ({course}) => {
 
@@ -40,18 +49,19 @@ const App = () => {
     }
 
     const Content = ({course}) => {
-      const content = course.parts.map(part => <p>  {part.name} {part.exercises} </p>)
           return(
-            <>
-              {content}
-            </>
+            <div>
+              {course.parts.map(part => <p key={part.name}>  {part.name} {part.exercises} </p>)}
+            </div>
           );
     }
 
     const Total = ({course}) => {
         const parts = course.parts 
+	console.log(parts)
+	let total = parts.reduce((sum,current) => current.exercises + sum,0)
       return(
-        <p> Number of exercises {parts[0].exercises+parts[1].exercises+parts[2].exercises} </p>
+        <p> Number of exercises {total} </p>
       );
     }
 
