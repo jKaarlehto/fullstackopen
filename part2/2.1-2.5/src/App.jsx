@@ -16,7 +16,11 @@ const App = () => {
                 {
                 name: 'State of a component',
                 exercises: 14
-                }
+                },
+		{
+		name: 'How to Train Your Houseplant to Speak',
+		exercises: 86
+		}
             ]
         }
 
