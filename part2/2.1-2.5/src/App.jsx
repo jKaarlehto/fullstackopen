@@ -1,7 +1,8 @@
 //Exercises in separate commits
 //
 const App = () => {
-        const course = {
+    const courses = [
+	{
             name: 'Half Stack application development',
 
             parts: [
@@ -22,12 +23,35 @@ const App = () => {
 		exercises: 86
 		}
             ]
-        }
+        },
+	{
+            name: 'Quarter queue software production',
+
+            parts: [
+                {
+                name: 'Fundamentals of Angular',
+                exercises: 10
+                },
+                {
+                name: 'Using data to pass data',
+                exercises: 7
+                },
+                {
+                name: 'State of affairs',
+                exercises: 14
+                },
+		{
+		name: 'How to convince people you are invisible',
+		exercises: 86
+		}
+            ]
+        },
+    ]
 
         return (
-
+	    
             <div>
-	    <Course course={course} />
+	    {courses.map(course => <Course course={course} key={course.name} />)}
             </div>
         );
 }
