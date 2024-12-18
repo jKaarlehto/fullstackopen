@@ -1,5 +1,8 @@
 const TableRenderer = ({table, filter}) => {
 
+
+//tama kannattaisi refaktoroida niin etta suodatus tapahtuu jossain muualla.
+console.log(filter)
 let headers = table.reduce((allFields,item) => {
     Object.keys(item).forEach((key) => allFields.add(key))
     return allFields }
@@ -7,9 +10,9 @@ let headers = table.reduce((allFields,item) => {
 
 headers = Array.from(headers)
 
-let filteredItems = table.filter(item => item[filter.key].toLowerCase().includes(filter.string.toLowerCase()))
+const filteredItems = Array.from(table.filter(item => item[filter.key].toLowerCase().includes(filter.string.toLowerCase())))
 
-
+console.log(filteredItems)
 return (
 <table>
     <thead>
@@ -19,12 +22,15 @@ return (
 	</tr>
     </thead>
     <tbody>
-	{filteredItems.map(item => {
-	    return <tr key={item.name}>{headers
-		.filter(header => item.hasOwnProperty(header))
-		    .map(header => <td key={`${item.name}/${header}`}>{item.header}</td>)}
-	    </tr>})}
-	
+      {filteredItems.map(item => (
+	<tr key={`${Object.values(item)[0]}`}>
+	  {headers
+	    .filter(header => item.hasOwnProperty(header))
+	    .map(header => (
+	      <td key={header}>{item[header]}</td>
+	    ))}
+	</tr>
+      ))}
     </tbody>
 </table>
 )
