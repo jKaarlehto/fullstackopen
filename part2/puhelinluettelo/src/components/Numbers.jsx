@@ -1,14 +1,14 @@
-import {useState} from 'react'
+const TableRenderer = ({table, filter}) => {
 
-const Numbers = ({persons}) => {
-
-//Get all unique fields. 
-let headers = persons.reduce((allFields,person) => {
-    Object.keys(person).forEach((key) => allFields.add(key))
+let headers = table.reduce((allFields,item) => {
+    Object.keys(item).forEach((key) => allFields.add(key))
     return allFields }
     ,new Set() )
 
 headers = Array.from(headers)
+
+let filteredItems = table.filter(item => item[filter.key].toLowerCase().includes(filter.string.toLowerCase()))
+
 
 return (
 <table>
@@ -19,13 +19,15 @@ return (
 	</tr>
     </thead>
     <tbody>
-	{persons.map(person => 
-	<tr key={person.name}>
-	    <td>{person.name}</td>
-	</tr>)} 
+	{filteredItems.map(item => {
+	    return <tr key={item.name}>{headers
+		.filter(header => item.hasOwnProperty(header))
+		    .map(header => <td key={`${item.name}/${header}`}>{item.header}</td>)}
+	    </tr>})}
+	
     </tbody>
 </table>
 )
 }
 
-export default Numbers
+export default TableRenderer 
