@@ -1,18 +1,16 @@
-const TableRenderer = ({table, filter}) => {
+const TableRenderer = ({table}) => {
 
 
 //tama kannattaisi refaktoroida niin etta suodatus tapahtuu jossain muualla.
-console.log(filter)
 let headers = table.reduce((allFields,item) => {
     Object.keys(item).forEach((key) => allFields.add(key))
     return allFields }
     ,new Set() )
 
 headers = Array.from(headers)
+const filteredItems = Array.from(table)
+    //const filteredItems = Array.from(table.filter(item => item[filter.key].toLowerCase().includes(filter.string.toLowerCase())))
 
-const filteredItems = Array.from(table.filter(item => item[filter.key].toLowerCase().includes(filter.string.toLowerCase())))
-
-console.log(filteredItems)
 return (
 <table>
     <thead>
