@@ -16,8 +16,14 @@ const update = (id, newObject) => {
   return request.then(response => response.data)
 }
 
-export default { 
-  getAll: getAll, 
-  create: create, 
-  update: update 
+const remove = id => {
+    const request = axios.delete(`${baseUrl}/${id}`)
+    return request.then(response => response.status)
 }
+
+const patch = (id, patchFields) => {
+    const request = axios.patch(`${baseUrl}/${id}`, patchFields)
+    return request.then(response => response.data)
+}
+
+export default { getAll, create, update, remove, patch  }

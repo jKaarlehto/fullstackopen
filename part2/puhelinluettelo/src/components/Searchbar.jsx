@@ -1,13 +1,17 @@
 
-
+import {useEffect} from 'react'
 //nama voisi laittaa myos yhtena objektina, ja sitten destruktoida: const {index, searchString jne...} = props
 const SearchBar = ({index, searchString, updateSearchString, updateResults, searchKey}) => {
-    
     const handleSearch = (event) => {
 	updateSearchString(event)
 	updateResults(index.filter(
 	    item => item[searchKey].toLowerCase().includes(event.target.value.toLowerCase())))
     }
+    //talla saadaan result paivitettya aina kun persons paivittyy, joten hakua ei tarvii nollata
+    useEffect(() => {
+	updateResults(index.filter(
+	    item => item[searchKey].toLowerCase().includes(searchString.toLowerCase())))
+    },[index])
 
     return (
 
@@ -17,4 +21,5 @@ const SearchBar = ({index, searchString, updateSearchString, updateResults, sear
    )
 
 }
- export default SearchBar
+
+export default SearchBar

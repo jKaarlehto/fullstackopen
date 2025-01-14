@@ -1,4 +1,4 @@
-const TableRenderer = ({table}) => {
+const TableRenderer = ({table,onClick}) => {
 
 
 //tama kannattaisi refaktoroida niin etta suodatus tapahtuu jossain muualla.
@@ -27,6 +27,9 @@ return (
 	    .map(header => (
 	      <td key={header}>{item[header]}</td>
 	    ))}
+	  <td>
+	  <input type='Button' value='Delete' readOnly={true} onClick={() => onClick(item)} />
+	  </td>
 	</tr>
       ))}
     </tbody>

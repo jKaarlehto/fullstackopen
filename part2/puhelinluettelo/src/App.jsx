@@ -27,22 +27,45 @@ const App = () => {
   const handleNewPerson = (event) => {
 
       event.preventDefault()
-      if (persons.find(existingPerson => existingPerson.name === newName)) {
-	return alert(`${newName} is already in the phonebook`)
+      const existingPerson = persons.find(existingPerson => existingPerson.name === newName) 
+      if (existingPerson && window.confirm(`${newName} exists already, replace old number?`)) {
+	    const request = personService.patch(existingPerson.id,{number: newNumber})
+	    request.then( response => { 
+		const updatedPersons = persons.map(person =>
+		  person.id === response.id
+		    ? { ...person, number: response.number }
+		    : person
+		);
+		 console.log(updatedPersons)
+		 setPersons(updatedPersons)
+	    })
+	  return
       }
       const person = { name: newName, number: newNumber }
       personService.create(person).then(response => {
-	  console.log(response)
 	  let updatedPersons = persons.concat(response)
+	  console.log(updatedPersons)
 	  setPersons(updatedPersons)
-	  handleChangeResult(updatedPersons)
-	  console.log("Submitted", event.target, updatedPersons)
       }
       )
 
       setNewName('')
       setNewNumber('')
       setNewSearch('')
+  }
+ 
+  const handleDeletePerson = (item) => {
+     if (!window.confirm(`Delete ${item.name}?`)) return
+     console.log(`deleteting: ${item.name}`)
+     const request = personService.remove(item.id)
+     request.then(response => {
+	 console.log(`deleted: ${item.name} with status ${response}`)
+	 return personService.getAll()
+  }).then(response => {
+      console.log(`setting persons to ${response[0]}`)
+      setPersons(response)
+
+  })
   }
 
   const handleChangeName = (event) => {
@@ -62,8 +85,8 @@ const App = () => {
   }
 
   const handleChangeResult = (result) => {
+      console.log('updating results')
       setNewResult(result)
-
   }
 
       
@@ -90,7 +113,7 @@ const App = () => {
       <h2>Add a new contact:</h2>
       <InputForm fields={fields} onSubmit={handleNewPerson} />
       <h2>Numbers</h2>
-      <TableRenderer table={newResult} />
+      <TableRenderer table={newResult} onClick={handleDeletePerson} />
     </div>
   )
 
