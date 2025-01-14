@@ -3,6 +3,8 @@ import axios from 'axios'
 import TableRenderer from './components/Numbers.jsx'
 import SearchBar from './components/Searchbar.jsx'
 import InputForm from './components/InputForm.jsx'
+import personService from './services/notes.jsx' 
+
 
 
 const App = () => {
@@ -28,15 +30,19 @@ const App = () => {
       if (persons.find(existingPerson => existingPerson.name === newName)) {
 	return alert(`${newName} is already in the phonebook`)
       }
-      const updatedPersons = persons.concat({name: newName, number: newNumber})
-      setPersons(updatedPersons)
+      const person = { name: newName, number: newNumber }
+      personService.create(person).then(response => {
+	  console.log(response)
+	  let updatedPersons = persons.concat(response)
+	  setPersons(updatedPersons)
+	  handleChangeResult(updatedPersons)
+	  console.log("Submitted", event.target, updatedPersons)
+      }
+      )
+
       setNewName('')
       setNewNumber('')
       setNewSearch('')
-      handleChangeResult(updatedPersons)
-      
-      
-      console.log("Submitted", event.target, updatedPersons)
   }
 
   const handleChangeName = (event) => {
