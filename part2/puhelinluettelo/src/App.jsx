@@ -1,16 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import TableRenderer from './components/Numbers.jsx'
+import SearchBar from './components/Searchbar.jsx'
+import InputForm from './components/InputForm.jsx'
+
 
 const App = () => {
-    const [persons, setPersons] = useState([
-	{ name: 'Arto Hellas', number: '040-123456' },
-	{ name: 'Ada Lovelace', number: '39-44-5323523' },
-	{ name: 'Dan Abramov', number: '12-43-234345' },
-	{ name: 'Mary Poppendieck', number: '39-23-6423122' }
-    ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [newResult, setNewResult] = useState(persons)
+
+  useEffect(() => {
+	axios
+	    .get('http://localhost:3001/persons')
+	    .then(response => {
+		setPersons(response.data)
+		setNewResult(response.data)
+	    })
+    }, []) 
 
 
   const handleNewPerson = (event) => {
@@ -23,6 +32,10 @@ const App = () => {
       setPersons(updatedPersons)
       setNewName('')
       setNewNumber('')
+      setNewSearch('')
+      handleChangeResult(updatedPersons)
+      
+      
       console.log("Submitted", event.target, updatedPersons)
   }
 
@@ -42,25 +55,36 @@ const App = () => {
 	setNewSearch(event.target.value)
   }
 
+  const handleChangeResult = (result) => {
+      setNewResult(result)
+
+  }
+
+      
+  const fields = {
+	name: {
+	  name: 'Name',
+	  value: newName,
+	  onChange: handleChangeName,
+	  type: 'text',
+	},
+	number: {
+	  name: 'Number',
+	  value: newNumber,
+	  onChange: handleChangeNumber,
+	  type: 'text',
+	},
+    };
+
+
   return (
     <div>
       <h2>Phonebook</h2>
-      search names: <input value={newSearch} type="text" onChange={handleChangeSearch} />
-      <h2>add a new</h2>
-      <form onSubmit={handleNewPerson}>
-        <div>
-          name: <input value={newName} type="text" onChange={handleChangeName} />
-        </div>
-        <div>
-	  number: <input value={newNumber} type="text" onChange={handleChangeNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <SearchBar index={persons} searchKey="name" searchString={newSearch} updateSearchString={handleChangeSearch} updateResults={handleChangeResult}/>
+      <h2>Add a new contact:</h2>
+      <InputForm fields={fields} onSubmit={handleNewPerson} />
       <h2>Numbers</h2>
-      <TableRenderer table={persons} filter={{string: newSearch, key: "name"}}/>
-      ...
+      <TableRenderer table={newResult} />
     </div>
   )
 
