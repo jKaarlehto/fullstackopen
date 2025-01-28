@@ -9,7 +9,6 @@ let headers = table.reduce((allFields,item) => {
 
 headers = Array.from(headers)
 const filteredItems = Array.from(table)
-    //const filteredItems = Array.from(table.filter(item => item[filter.key].toLowerCase().includes(filter.string.toLowerCase())))
 
 return (
 <table>
