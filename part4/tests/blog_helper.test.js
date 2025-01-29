@@ -34,9 +34,8 @@ describe('favorite blog', () => {
 		}
 		assert.deepStrictEqual(result, answer)
 	})
-
 })
-describe('most blog posts', () => {
+describe('most active blogger', () => {
 
 	test('the author with most blog posts', () => {
 		const result = blogHelper.mostBlogs(testVars.manyBlogsArr)
@@ -47,6 +46,26 @@ describe('most blog posts', () => {
 		}
 		assert.deepStrictEqual(result, answer)
 	})
-
 })
+describe('favorite blogger', () => {
+
+    test('the author with most likes', () => {
+	const result = blogHelper.mostLikes(testVars.manyBlogsArr)
+	answer = 
+	{
+	    author: "Edsger W. Dijkstra",
+	    likes: 17
+	}
+	assert.deepStrictEqual(result,answer)
+    })
+})
+
+
+
+
+
+
+
+
+
 

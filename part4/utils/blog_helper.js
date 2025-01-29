@@ -1,3 +1,5 @@
+const { PORT } = require('./config')
+
 Blog = require('../models/blog')
 
 const dummy = (dummy) => 1
@@ -28,11 +30,26 @@ const mostBlogs = (blogs) => {
 	    },{})
     let highest = Object.entries(counts)
 	    .reduce((max, [author, blogs]) => {
-		return blogs > max.blogs ? {author, blogs} : max;
+		return blogs > max.blogs ? {author, blogs} : max
 	    },{blogs:0})
     return highest 
 
 }
 
-module.exports = { totalLikes, dummy, favoriteBlog, mostBlogs }
+const mostLikes = (blogs) => {
+
+  if (blogs.length === 0) return null
+  let likes = blogs
+	.reduce((likes,blog) => {
+	likes[blog.author] = (likes[blog.author] || 0) + blog.likes	
+	return likes
+	},{})
+  let mostLiked = Object.entries(likes)
+	.reduce((max, [author, likes]) => {
+	    return likes > max.likes ? {author, likes} : max
+	},{likes:0})
+  return mostLiked 
+
+}
+module.exports = { totalLikes, dummy, favoriteBlog, mostBlogs, mostLikes}
 
