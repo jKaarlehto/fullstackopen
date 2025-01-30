@@ -4,12 +4,6 @@ const testVars = require('./test_vars')
 const blogHelper = require('../utils/blog_helper')
 
 
-test('dummy returns one', () => {
-	const blogs = []
-	const result = blogHelper.dummy(blogs)
-	assert.strictEqual(result, 1)
-})
-
 describe('total likes', () => {
 
 	test('when list only contains one blog b ==> total likes = b.likes', () => {

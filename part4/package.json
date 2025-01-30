@@ -3,19 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --test",
-    "dev": "nodemon index.js"
+    "test": "NODE_ENV=test node --test",
+    "dev": "NODE_ENV=developement nodemon index.js",
+    "start": "NODE_ENV=production node index.js"
   },
   "author": "Juhana Kaarlehto",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-async-errors": "^3.1.1",
     "mongoose": "^8.9.5"
   }
 }
