@@ -19,12 +19,23 @@ beforeEach(async () => {
 
 describe('api', () => {
 
-
     test('response is json', async () => {
 	await api
 	    .get('/api/blogs')
 	    .expect(201)
 	    .expect('Content-Type', /application\/json/)
+    })
+
+    test('response identifier is id, not _id', async () => {
+
+	const checkId = ({body}) => {
+	    if (!(body[0].id)) throw new Error("no id")
+	    if (body[0]._id) throw new Error("response should have id, not _id")
+	}
+
+	await api
+	    .get('/api/blogs')
+	    .expect(checkId)
     })
 
 })
