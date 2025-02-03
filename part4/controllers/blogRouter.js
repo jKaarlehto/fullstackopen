@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 require('express-async-errors')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const { PORT } = require('../utils/config')
 
 
 getTokenFrom = request => {
@@ -25,20 +26,34 @@ router.get('/:id', async (request, response) => {
 })
 
 router.post('/', async (request, response) => {
-	const decodedToken = jwt.verify(request.token,process.env.SECRET)	
-	if (!decodedToken.id) {
-	    return response.status(401).json({error: 'token invalid' })
+	if (!request.requester) {
+	   return response.status(401).json({error: 'Unauthorized: not authenticated'})
 	}
-	const user = await User.findById(decodedToken.id)
-	let blog = {...request.body, user:user.id}
-	if (!blog.author) blog.author = user.name
+	const requester = request.requester
+	
+	let blog = {...request.body, user:requester}
+	if (!blog.author) {
+	    const author = await User.findById(requester).name
+	    blog.author = author 
+	}
+
 	blog = new Blog(blog)
-	console.log(blog)
 	const result = await blog.save()
 	response.status(201).json(result)
 })
 
 router.delete('/:id', async (request, response) => {
+	const blog = await Blog.findById(request.params.id) 
+	if (!blog) response.status(404).end()	
+
+	const owner = blog.user.toString()
+
+	if (!request.requester) {
+	   return response.status(401).json({error: 'Unauthorized: not authenticated'})
+	}
+	if (!(request.requester === owner)) {
+	    return response.status(401).json({error: `Unauthorized: user ${request.requester} does not own object ${request.params.id}`}) 
+	}
 	const result = await Blog.findByIdAndDelete(request.params.id)
 	if (!(result)) { response.status(404).end() }
 	else { response.status(204).end() }

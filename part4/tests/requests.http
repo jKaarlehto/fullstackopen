@@ -27,7 +27,15 @@ Content-Type: application/json
     "name": "Juhana Kaarlehto"
 }
 
+###
+POST localhost:3001/api/users
+Content-Type: application/json
 
+{
+    "username":"amarmion",
+    "password":"salasana1",
+    "name": "Aislinn Marmion"
+}
 ###
 POST localhost:3001/api/login
 Content-Type: application/json
@@ -37,11 +45,14 @@ Content-Type: application/json
     "password": "salasana"
 }
 
-# @lang=lua
-> {%
-   local json = vim.json.decode(response.body) 
-   local token = json.token
-%}
+###
+POST localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "amarmion",
+    "password": "salasana1"
+}
 
 ###
 POST localhost:3001/api/blogs
@@ -50,3 +61,28 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImprY
 
 {"title":"juhanas blog", "url":"www.example.com"}
 
+###
+POST localhost:3001/api/blogs
+Content-Type: application/json
+
+{"title":"juhanas blog", "url":"www.example.com"}
+
+###
+GET localhost:3001/api/blogs/67a118c7b280e6bc58a58694
+Content-Type: application/json
+
+### Not authenticated
+DELETE localhost:3001/api/blogs/67a118c7b280e6bc58a58694
+Content-Type: application/json
+
+
+
+### Not owner
+DELETE localhost:3001/api/blogs/67a118c7b280e6bc58a58694
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFtYXJtaW9uIiwiaWQiOiI2N2ExMGVmMjdkOThlZTQ1ZTFjMTkzNTUiLCJpYXQiOjE3Mzg2MDkxMjV9.XYdclaiW1YzK4xlaZ0uaXESkTyLJxTXmjALzROMcuHU
+
+###Owner
+DELETE localhost:3001/api/blogs/67a118c7b280e6bc58a58694
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImprYWFybGVodG8iLCJpZCI6IjY3YTEwMjgyZWU3OGNmYmZlNzE2NTkwMyIsImlhdCI6MTczODYwNjEwOX0.UCuGL3MgWuVm9qhsSBnEsWJc9v1tuFfofG0mxHbPzPw
