@@ -1,8 +1,15 @@
 const { PORT } = require('./config')
 
-Blog = require('../models/blog')
+const Blog = require('../models/blog')
 
-const dummy = (dummy) => 1
+const dummy = () => 1
+
+const notesInDb = async () => {
+
+    const blogs = await Blog.find({})
+    return blogs.map(blog => blog.toJSON())
+    
+    }
 
 const totalLikes = (blogs) => {
 	return blogs.reduce((sum, blog) => {
@@ -51,5 +58,5 @@ const mostLikes = (blogs) => {
   return mostLiked 
 
 }
-module.exports = { totalLikes, dummy, favoriteBlog, mostBlogs, mostLikes}
+module.exports = { totalLikes, dummy, favoriteBlog, mostBlogs, mostLikes, notesInDb}
 

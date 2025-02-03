@@ -7,5 +7,14 @@ Content-Type: application/json
 
 {"title":"NewBlog","author":"Jon Johns","url":"www.example.com","likes":"1"}
 
+###
+POST localhost:3001/api/users
+Content-Type: application/json
+
+{}
+
+
+###
+GET localhost:3001/api/users
 
 

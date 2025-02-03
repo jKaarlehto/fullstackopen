@@ -4,28 +4,28 @@ const app = require('./../app')
 const supertest = require('supertest')
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const testVars = require('./test_vars')
+const { warn } = require('node:console')
 
 const api = supertest(app)
 
 const INITIAL_COUNT = testVars.manyBlogsArr.length
-
-beforeEach(async () => {
-	await Blog.deleteMany({})
-	const blogObjects = testVars.manyBlogsArr
-		.map(blog => new Blog(blog))
-	const promiseArray = blogObjects.map(blog => blog.save())
-	await Promise.all(promiseArray)
-})
-
 
 const validateBlog = async ({body}) => {
     await Blog.validate(body)
 }
 
 
-describe('API', () => {
+describe('api/blogs', () => {
 
+beforeEach(async () => {
+    await Blog.deleteMany({})
+    const blogObjects = testVars.manyBlogsArr
+	.map(blog => new Blog(blog))
+    const promiseArray = blogObjects.map(blog => blog.save())
+    await Promise.all(promiseArray)
+})
 	describe('GET', () => {
 
 		test('response is json', async () => {
@@ -190,6 +190,61 @@ describe('API', () => {
 	})
 
 })
+
+describe( 'api/users', () => {
+
+    beforeEach(async () => {
+	await User.deleteMany({})
+	const userObjects = testVars.manyUsersArr
+	    .map(user => new User(user))
+	const promiseArray = userObjects.map(user => user.save())
+	await Promise.all(promiseArray)
+    })
+    describe('GET', () => { 
+
+	test('returns json', async () => {
+	    await api
+		.get('/api/users')
+		.expect('Content-Type', /application\/json/)
+		.expect(({body}) => assert.equal(body.length, testVars.manyUsersArr.length)) 
+		})
+
+	test('response length matches db user count', async () => {
+
+	    await api
+		.get('/api/users')
+		.expect(({body}) => assert.equal(body.length, testVars.manyUsersArr.length)) 
+		})
+    })
+
+    describe('POST', () => {
+
+	test('users with missing username are not created', async () => {
+	    await api
+		.post('/api/users')
+		.send(testVars.missingUsernameArr[0])
+		.set('Content-Type', 'application/json')
+		.expect(400)
+
+	    await api
+		.get('/api/users')
+		.expect(({body}) => assert.equal(body.length, testVars.manyUsersArr.length)) 
+	})
+	test('users with malformed username are not created', async () => {
+	    await api
+		.post('/api/users')
+		.send(testVars.malfromedUsernameArr[0])
+		.set('Content-Type', 'application/json')
+		.expect(400)
+
+	    await api
+		.get('/api/users')
+		.expect(({body}) => assert.equal(body.length, testVars.manyUsersArr.length)) 
+	})
+    })
+
+})
+
 
 
 after(async () => {
