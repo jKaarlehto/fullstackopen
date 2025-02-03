@@ -8,6 +8,8 @@ const testVars = require('./test_vars')
 
 const api = supertest(app)
 
+const INITIAL_COUNT = testVars.manyBlogsArr.length
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     const blogObjects = testVars.manyBlogsArr
@@ -36,6 +38,20 @@ describe('api', () => {
 	await api
 	    .get('/api/blogs')
 	    .expect(checkId)
+    })
+
+    test('posting a blog adds it to the database', async () => {
+
+	const body = testVars.oneBlogArr[0]
+	await api
+	    .post('/api/blogs',body)
+	    .expect(201)
+	await api
+	    .get('/api/blogs')
+	    .expect(({body}) => {
+	    assert.equal(body.length, INITIAL_COUNT + 1)
+	    })
+
     })
 
 })
