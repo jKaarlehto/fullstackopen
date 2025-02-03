@@ -13,8 +13,28 @@ Content-Type: application/json
 
 {}
 
-
 ###
 GET localhost:3001/api/users
+
+
+###
+POST localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username":"jkaarlehto",
+    "password":"salasana",
+    "name": "Juhana Kaarlehto"
+}
+
+
+###
+POST localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "jkaarlehto",
+    "password": "salasana"
+}
 
 
