@@ -1,9 +1,10 @@
 const router = require('express').Router()
 require('express-async-errors')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 router.get('/', async (request, response) => {
-	const result = await Blog.find({})
+	const result = await Blog.find({}).populate('user')
 	response.status(201).json(result)
 })
 
@@ -14,7 +15,10 @@ router.get('/:id', async (request, response) => {
 })
 
 router.post('/', async (request, response) => {
-	const blog = new Blog(request.body)
+	const creator = await User.findOne({})
+	let blog = {...request.body, user:creator.id}
+	blog = new Blog(blog)
+	console.log(blog)
 	const result = await blog.save()
 	response.status(201).json(result)
 })
