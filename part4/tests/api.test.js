@@ -64,8 +64,18 @@ describe('api', () => {
 	    .set('Content-Type', 'application/json')
 	    .expect(201)
 
-	console.log(response.body)
 	assert.equal(response.body.likes, 0)
+
+    })
+
+    test('posting a blog without likes sets likes to 0', async () => {
+
+	const body = testVars.malformedBlogArr[0]
+	const response = await api
+	    .post('/api/blogs')
+	    .send(body)
+	    .set('Content-Type', 'application/json')
+	    .expect(400)
 
     })
 

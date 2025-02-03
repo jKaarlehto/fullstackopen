@@ -72,4 +72,12 @@ const zeroLikeBlogArr = [
     }
   ] 
 
-module.exports = {manyBlogsArr, oneBlogArr, zeroLikeBlogArr}
+const malformedBlogArr = [
+    {
+      _id: '5a422aa71b54a676234d17d0',
+      author: 'Edsger W. Dijkstra',
+      __v: 0
+    }
+]
+
+module.exports = {manyBlogsArr, oneBlogArr, zeroLikeBlogArr, malformedBlogArr}
