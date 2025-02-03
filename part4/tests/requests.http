@@ -37,4 +37,16 @@ Content-Type: application/json
     "password": "salasana"
 }
 
+# @lang=lua
+> {%
+   local json = vim.json.decode(response.body) 
+   local token = json.token
+%}
+
+###
+POST localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImprYWFybGVodG8iLCJpZCI6IjY3YTEwMjgyZWU3OGNmYmZlNzE2NTkwMyIsImlhdCI6MTczODYwNjEwOX0.UCuGL3MgWuVm9qhsSBnEsWJc9v1tuFfofG0mxHbPzPw
+
+{"title":"juhanas blog", "url":"www.example.com"}
 
