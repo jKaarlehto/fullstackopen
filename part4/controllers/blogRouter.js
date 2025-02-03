@@ -1,9 +1,8 @@
 const router = require('express').Router()
-const jwt = require('jsonwebtoken')
 require('express-async-errors')
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const { PORT } = require('../utils/config')
+const requesterExtractor = require('../middleware/requesterExtractor')
 
 
 getTokenFrom = request => {
@@ -25,7 +24,7 @@ router.get('/:id', async (request, response) => {
 	else { response.status(200).json(result) }
 })
 
-router.post('/', async (request, response) => {
+router.post('/', requesterExtractor, async (request, response) => {
 	if (!request.requester) {
 	   return response.status(401).json({error: 'Unauthorized: not authenticated'})
 	}
@@ -42,7 +41,7 @@ router.post('/', async (request, response) => {
 	response.status(201).json(result)
 })
 
-router.delete('/:id', async (request, response) => {
+router.delete('/:id', requesterExtractor, async (request, response) => {
 	const blog = await Blog.findById(request.params.id) 
 	if (!blog) response.status(404).end()	
 
