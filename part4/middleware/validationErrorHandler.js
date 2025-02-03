@@ -1,9 +1,14 @@
-const validationErrorHandler = (error, request, response, next) => {
+const logger = require('../utils/logger')
+const ErrorHandler = (error, request, response, next) => {
+   logger.error('Error logger:')
+   logger.error(error) 
 
     if (error.name === 'ValidationError') {
-	response.status(400).json({error: `${error.message}`})
-    } else next()
+	return response.status(400).json({error: `${error.message}`})
+    } 
+
+    next()
 
 }
 
-module.exports = validationErrorHandler
+module.exports = ErrorHandler

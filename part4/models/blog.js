@@ -7,6 +7,11 @@ const blogSchema = mongoose.Schema({
 	likes: { type: Number, default: 0 }
 })
 
+//blogSchema.pre('findByIdAndUpdate', (next) => {
+//   this.options.runValidators = true
+//   next()
+//})
+
 blogSchema.set('toJSON', {
 	transform: (document, returnedObject) => {
 		returnedObject.id = returnedObject._id.toString()

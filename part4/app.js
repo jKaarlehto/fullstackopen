@@ -6,7 +6,7 @@ const cors = require('cors')
 
 const router = require('./controllers/router')
 const logger = require('./utils/logger')
-const validationErrorHandler = require('./middleware/validationErrorHandler')
+const errorHandler = require('./middleware/validationErrorHandler')
 
 mongoose.connect(config.MONGODB_URI, {dbName:config.MONGODB_DBNAME})
     .then(() => {
@@ -25,6 +25,6 @@ app.use('/api', router)
 
 
 //Error handler
-app.use(validationErrorHandler)
+app.use(errorHandler)
 
 module.exports = app
