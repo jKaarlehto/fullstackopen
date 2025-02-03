@@ -44,13 +44,28 @@ describe('api', () => {
 
 	const body = testVars.oneBlogArr[0]
 	await api
-	    .post('/api/blogs',body)
+	    .post('/api/blogs')
+	    .send(body)
+	    .set('Content-Type', 'application/json')
 	    .expect(201)
 	await api
 	    .get('/api/blogs')
 	    .expect(({body}) => {
 	    assert.equal(body.length, INITIAL_COUNT + 1)
 	    })
+    })
+    
+    test('posting a blog without likes sets likes to 0', async () => {
+
+	const body = testVars.zeroLikeBlogArr[0]
+	const response = await api
+	    .post('/api/blogs')
+	    .send(body)
+	    .set('Content-Type', 'application/json')
+	    .expect(201)
+
+	console.log(response.body)
+	assert.equal(response.body.likes, 0)
 
     })
 
