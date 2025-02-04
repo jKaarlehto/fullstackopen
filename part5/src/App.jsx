@@ -21,7 +21,7 @@ const App = () => {
 	    if (loggedUserJSON) {
 	      const user = JSON.parse(loggedUserJSON)
 	      setUser(user)
-	      //blogService.setToken(user.token) servicella ei statea
+	      //blogService.setToken(user.token)
 	    }
 	  }, [])
 
@@ -40,6 +40,11 @@ const App = () => {
 				setErrorMessage(null)
 			}, 5000)
 		}
+	}
+	
+	const handleLogout = async () => {
+	    setUser(null)
+	    window.localStorage.removeItem('loggedBlogsAppUser')
 	}
 
 	const loginForm = () => {
@@ -85,7 +90,12 @@ const App = () => {
 
 	return (
 	    <div>
-	    <p>{user && `Logged in as ${user.name}`}</p>
+	    <p>
+		{user ?
+		(<>Logged in as {user.name} <button onClick={handleLogout}>Logout</button></>)
+		:
+		(null)	
+	    }</p>
 	    {!user && loginForm()}
 	    {user && blogsForm()}
 	    </div>
