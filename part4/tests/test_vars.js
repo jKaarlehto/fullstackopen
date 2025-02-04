@@ -119,7 +119,7 @@ const oneUserArr = [
 const missingUsernameArr = [
 	{
 		"name": "Grace Hopper",
-		"passwordHash": "c0d1e2b3u4g5f6i7x8y9"
+		"password": "c0d1e2b3u4g5f6i7x8y9"
 	}
 ]
 
@@ -127,9 +127,15 @@ const malfromedUsernameArr = [
     {
   "username": "u1",
   "name": "Henry Ford",
-  "passwordHash": "a1b2c3d4e5f6g7h8i9j0"
+  "password": "a1b2c3d4e5f6g7h8i9j0"
 }
 ]
 
+const testUser = {
+    "username":"testUser",
+    "name":"Test User",
+    "password":"asdf1234"
+}
 
-module.exports = { manyBlogsArr, oneBlogArr, zeroLikeBlogArr, malformedBlogArr, manyUsersArr, oneUserArr, missingUsernameArr, malfromedUsernameArr }
+
+module.exports = { testUser, manyBlogsArr, oneBlogArr, zeroLikeBlogArr, malformedBlogArr, manyUsersArr, oneUserArr, missingUsernameArr, malfromedUsernameArr }
