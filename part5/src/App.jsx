@@ -8,7 +8,7 @@ const App = () => {
 	const [username, setUsername] = useState([])
 	const [password, setPassword] = useState([])
 	const [user, setUser] = useState(null)
-	const [errorMessage, setErrorMessage] = useState(null)
+	const [notificationMessage, setNotificationMessage] = useState(null)
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
@@ -28,6 +28,28 @@ const App = () => {
 	      blogService.setToken(user.token)
 	    }
 	  }, [])
+	
+	const notification = ({error, message}) => {
+
+	    const style = {
+		border: `2px solid ${error ? "red" : "green"}`,
+		color: error ? "red" : "green",
+		padding: "20px",
+		borderRadius: "10px",
+		textAlign: "center",
+		fontWeight: "bold",
+	      };
+	    setTimeout(() => {
+		setNotificationMessage(null)
+	    },5000) 
+	    setNotificationMessage(
+		    <div style={style}>
+		    <p>{error ? error : message}</p>
+		    </div>
+	    )
+	    return
+	}
+	    
 
 	const handleLogin = async (event) => {
 		event.preventDefault()
@@ -40,10 +62,8 @@ const App = () => {
 			setUsername('')
 			setPassword('')
 		} catch (error) {
-			setErrorMessage('wrong credentials')
-			setTimeout(() => {
-				setErrorMessage(null)
-			}, 5000)
+			console.log('setting notification')
+			notification({error:'wrong credentials'})
 		}
 	}
 	
@@ -54,14 +74,19 @@ const App = () => {
 
 	const handleNewBlog = async (event) => {
 	    event.preventDefault()
-	    blogService.create({title, author, url})
+	    try {
+	    const response = await blogService.create({title, author, url})
+	    notification({message: `Created ${response.data.title}`})
+	    } catch (error) {
+	    notification(error.response.data)
+	    }
+
 	}
 
 	const loginForm = () => {
 	    return (
 	    <div>
 		<h2>Login</h2>
-			  <h3>{errorMessage}</h3>
 			  <form onSubmit={handleLogin}>
 			    <div>
 			      username
@@ -123,6 +148,7 @@ const App = () => {
 		:
 		(null)	
 	    }</p>
+	    {notificationMessage}
 	    {!user && loginForm()}
 	    {user && blogsForm()}
 	    {user && blogSubmitter()}

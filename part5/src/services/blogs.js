@@ -22,7 +22,7 @@ const getAll = () => {
 const create = async ({title, author, url}) => {
     console.log("creating new blog")
     const body = {title, author, url}
-    const response = axios.post(baseUrl, body, getAuthHeaderConfig())
+    const response = await axios.post(baseUrl, body, getAuthHeaderConfig())
     return response
 }
 
