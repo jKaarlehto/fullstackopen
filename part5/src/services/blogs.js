@@ -26,6 +26,13 @@ const create = async ({title, author, url}) => {
     return response
 }
 
+const remove = async (blog) => {
+    const uri = `${baseUrl}/${blog.id}`
+    console.log(`removing ${uri}`)
+    const response = await axios.delete(uri, getAuthHeaderConfig())
+    return response
+}
+
 const like = async (blog) => {
 
     const uri = `${baseUrl}/${blog.id}`
@@ -37,4 +44,4 @@ const like = async (blog) => {
 
 }
 
-export default { like, setToken, getAll, create }
+export default { remove, like, setToken, getAll, create }

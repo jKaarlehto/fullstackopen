@@ -11,6 +11,18 @@ const addLike = async () => {
     setBlogs(newAllBlogs)
 }
 
+const remove = async () => {
+    if (!(window.confirm(`Do you really want to remove ${blog.title}`))) return
+    try {
+    await blogService.remove(blog)
+    const newAllBlogs = allBlogs.filter(b => (b.id !== blog.id))
+    setBlogs(newAllBlogs)
+    } catch (error) {
+	alert(error.response.data.error || 'Cannot delete')
+    }
+
+}
+
 return (
 <div style={{ display: "flex", justifyContent: "space-between", border: "2px solid black", margin: "5px 5px", width: "50%"}}>
     <div style={{paddingRight: '20px'}}>
@@ -31,6 +43,9 @@ return (
 	    <tr>
 		<td>Author</td>
 		<td>{blog.author}</td>
+	    </tr>
+	    <tr>
+		<td><button onClick={remove}>remove</button></td>
 	    </tr>
 	  </tbody>
 	</table>
