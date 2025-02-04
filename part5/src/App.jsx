@@ -71,13 +71,13 @@ const App = () => {
 	    window.localStorage.removeItem('loggedBlogsAppUser')
 	}
 
-	const handleNewBlog = async (event) => {
-	    event.preventDefault()
+	const handleNewBlog = async ({title, author, url}) => {
 	    try {
 	    const response = await blogService.create({title, author, url})
 	    const newBlogs = await blogService.getAll()
 	    setBlogs(newBlogs)
 	    notification({message: `Created ${response.data.title}`})
+	    blogFromRef.current.toggleVisibility()
 	    } catch (error) {
 	    notification(error.response.data)
 	    }
