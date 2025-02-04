@@ -32,7 +32,7 @@ POST localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "username":"amarmion",
+    "username":"amarmion2",
     "password":"salasana1",
     "name": "Aislinn Marmion"
 }
