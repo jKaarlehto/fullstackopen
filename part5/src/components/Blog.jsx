@@ -1,16 +1,15 @@
+import { all } from 'axios'
 import Togglable from '../components/Toggleable'
 import blogService from '../services/blogs'
-import { useState} from 'react'
-const Blog = ({ blog }) => {
+import { useState, useImperativeHandle, forwardRef} from 'react'
 
-const [blogStats, setBlogStats] = useState(blog)
+const Blog = ({blog, setBlogs, allBlogs}) => {
 
 const addLike = async () => {
-    const newBlogStats = await blogService.like(blog)
-    setBlogStats(newBlogStats)
+    const newBlog = await blogService.like(blog)
+    const newAllBlogs = allBlogs.map(b => (b.id === newBlog.id) ? newBlog : b)
+    setBlogs(newAllBlogs)
 }
-
-
 
 return (
 <div style={{ display: "flex", justifyContent: "space-between", border: "2px solid black", margin: "5px 5px", width: "50%"}}>

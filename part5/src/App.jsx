@@ -124,7 +124,7 @@ const App = () => {
 	    }</p>
 	    {notificationMessage}
 	    {!user && loginForm()}
-	    {user && <BlogList blogs={blogs}/>}
+	    {user && <BlogList blogs={blogs} setBlogs={setBlogs}/>}
 	    {user && <Togglable buttonLabel='New blog' ref={blogFromRef}>
 			<BlogForm handleNewBlog={handleNewBlog}/>
 		    </Togglable>}

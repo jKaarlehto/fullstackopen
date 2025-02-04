@@ -1,14 +1,16 @@
+import {useRef} from 'react'
 
-
-import Togglable from '../components/Toggleable'
 import Blog from '../components/Blog'
-const BlogList = ({blogs}) => {
+const BlogList = ({blogs, setBlogs}) => {
+
 
    return (
        <div>
 	<h2>blogs</h2>
-       {blogs.map(blog => 
-	   <Blog key={blog.id} blog={blog} />
+       {blogs
+	   .sort((a, b) => b.likes - a.likes)
+	   .map(blog => 
+	   <Blog key={blog.id} blog={blog} allBlogs={blogs} setBlogs={setBlogs}/> //this is fucking stupid
        )}
        </div>
    )
