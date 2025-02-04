@@ -26,4 +26,15 @@ const create = async ({title, author, url}) => {
     return response
 }
 
-export default { setToken, getAll, create }
+const like = async (blog) => {
+
+    const uri = `${baseUrl}/${blog.id}`
+    blog.likes += 1
+    console.log(blog)
+    console.log(`adding a like to ${uri}`)
+    const response = await axios.put(uri, {...blog, user: blog.user.id})
+    return response
+
+}
+
+export default { like, setToken, getAll, create }
