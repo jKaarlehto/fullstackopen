@@ -25,11 +25,11 @@ const Blog = ({ blog, setBlogs, allBlogs }) => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', border: '2px solid black', margin: '5px 5px', width: '50%' }}>
-      <div style={{ paddingRight: '20px' }}>
+      <div data-testid='title' style={{ paddingRight: '20px' }}>
         {blog.title}
       </div>
       <Togglable buttonLabel='show'>
-        <table>
+        <table data-testid='details'>
 	  <tbody>
 	    <tr>
               <td>URL</td>

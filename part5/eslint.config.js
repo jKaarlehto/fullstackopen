@@ -2,6 +2,7 @@
 import js from '@eslint/js'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import vitestGlobalsPlugin from 'eslint-plugin-vitest-globals';
 
 export default [
   // Base ESLint recommended settings
@@ -21,7 +22,8 @@ export default [
         }
       },
       globals: {
-	  window: 'readonly',
+	...js.configs.recommended.globals,
+	window: 'readonly',
         setTimeout: 'readonly',
         console: 'readonly',
         alert: 'readonly',
@@ -31,6 +33,7 @@ export default [
     plugins: {
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
+    'vitest-globals': vitestGlobalsPlugin,
     },
     settings: {
       react: {
