@@ -38,7 +38,7 @@ const Blog = ({ blog, setBlogs, allBlogs }) => {
 	    <tr>
               <td>Likes</td>
               <td>{blog.likes}</td>
-              <td><button onClick={addLike}>like</button></td>
+              <td><button data-testid='likeButton' onClick={addLike}>like</button></td>
 	    </tr>
 	    <tr>
               <td>Author</td>
